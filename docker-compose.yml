@@ -1,0 +1,15 @@
+version: '3.7'
+services:
+  my-mongo-container:
+    image: mongo:latest
+    volumes:
+      - ./mongodb/data/db:/data/db
+    ports:
+      - '27019:27019'
+
+  mongo-express:
+    image: mongo-express:latest
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_SERVER: my-mongo-container
