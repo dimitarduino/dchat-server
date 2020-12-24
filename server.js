@@ -6,13 +6,18 @@ const port = process.env.PORT || 5000;
 const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
+const usersRoute = require('./routes/usersRoute'); 
+const registerRoute = require('./routes/registerRoute');
+
 
 //middleware
 app.use(cors());
 app.use(express.json());
+app.use("/users", usersRoute);
+app.use("/register", registerRoute);
 
 //db
-const uri = process.env.ATLAS_URI ? process.env.ATLAS_URI : 'mongodb://localhost:27017/dchat';
+const uri = 'mongodb://localhost:27017/dchat';
 mongoose.connect(uri, {
     useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true
 });

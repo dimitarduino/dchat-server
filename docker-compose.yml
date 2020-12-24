@@ -5,7 +5,7 @@ services:
     volumes:
       - ./mongodb/data/db:/data/db
     ports:
-      - '27019:27019'
+      - '27017:27017'
 
   mongo-express:
     image: mongo-express:latest
