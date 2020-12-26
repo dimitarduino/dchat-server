@@ -9,7 +9,7 @@ const io = require('socket.io')(server);
 const usersRoute = require('./routes/usersRoute'); 
 const registerRoute = require('./routes/registerRoute');
 const groupsRoute = require('./routes/groupsRoute');
-
+const messagesRoute = require('./routes/messagesRoute');
 
 //middleware
 app.use(cors());
@@ -17,6 +17,7 @@ app.use(express.json());
 app.use("/users", usersRoute);
 app.use("/register", registerRoute);
 app.use("/groups", groupsRoute);
+app.use('/messages', messagesRoute);
 
 //db
 const uri = 'mongodb://localhost:27017/dchat';
