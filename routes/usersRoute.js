@@ -19,6 +19,55 @@ router.get("/", auth, async (req, res) => {
     }
 })
 
+//promeni lozinka
+router.post("/:id", async (req, res) => {
+    const userId = req.params.id;
+    var { oldPassword, newPassword, confirmPassword } = req.body;
+    
+    console.log(oldPassword);
+    console.log(newPassword);
+    console.log(confirmPassword);
+
+    if (oldPassword && newPassword && confirmPassword) {
+        const user = await User.findById(userId);
+
+        if (user) {
+                const match = await bcrypt.compare(oldPassword, user.lozinka);
+        
+                if (!match) {
+                    res.status(400).json({ msg: "Внесената лозинка не е точна!" });
+                } else {
+                    if (newPassword != confirmPassword) {
+                        res.status(400).json({ msg: "Лозинките не се совпаѓаат!" });
+                    } else {
+                        if (newPassword.trim().length < 6) {
+                            res.status(400).json({ msg: "Лозинката мора да е подолга од 6 карактери!" });
+                        } else {
+                            const salt = await bcrypt.genSalt(10);
+        
+                            user.lozinka = await bcrypt.hash(newPassword, salt);
+                            await user.save();
+        
+                            var { ime, prezime, telefon, email, _id } = user;
+        
+                            res.send({
+                                ime, prezime, telefon, email, _id
+                            });
+        
+                        }
+                    }
+    
+            }
+        } else {
+            res.status(400).json({ msg: "Корисникот не е пронајден" });
+        }
+    } else {
+        res.status(500).send({err: "Невалидни податоци!"});
+    }
+
+   
+})
+
 
 router.post('/', [
     check('email', 'Ве молиме внесете валидна email адреса').isEmail(),
