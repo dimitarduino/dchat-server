@@ -14,7 +14,7 @@ const messagesRoute = require('./routes/messagesRoute');
 //middleware
 app.use(cors());
 app.use(express.json());
-app.use("/users", usersRoute);
+app.use("/auth", usersRoute);
 app.use("/register", registerRoute);
 app.use("/groups", groupsRoute);
 app.use('/messages', messagesRoute);
