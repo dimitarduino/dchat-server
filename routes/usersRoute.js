@@ -115,4 +115,19 @@ router.post('/', [
     }
 })
 
+router.get("/:email", async (req, res) => {
+    try {
+        const user = await User.find({email: req.params.email});
+        console.log(user);
+        if (user && user.length != 0) {
+            res.status(200).json({msg: "Корисникот е успешно додаден во вашата група", user: user[0]});
+        } else {
+            res.status(400).json({msg: "Корисникот не постои во системот!"});
+        }
+    } catch (err) {
+        console.log('ima greska');
+        res.status(400).json({msg: "Корисникот не постои во системот!"});
+    }
+})
+
 module.exports = router;
