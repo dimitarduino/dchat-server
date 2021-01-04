@@ -7,7 +7,7 @@ const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: process.env.FRONTEND_URL ? process.env.FRONTEND_URL : "http://localhost:3000",
         methods: ["GET", "POST"]
       }
 });
@@ -25,13 +25,15 @@ app.use("/groups", groupsRoute);
 app.use('/messages', messagesRoute);
 
 //db
-const uri = 'mongodb://localhost:27017/dchat';
+const uri = process.env.ATLAS_URI ? process.env.ATLAS_URI : 'mongodb://localhost:27017/dchat';
 mongoose.connect(uri, {
     useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true
 });
 
 const connection = mongoose.connection;
-connection.once("open", () => { console.log("Mongo database established successfully") });
+connection.once("open", () => { 
+    console.log("Mongo database established successfully")
+});
 
 //test route
 app.get("/", (req, res) => {
