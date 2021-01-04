@@ -72,7 +72,7 @@ io.on('connection', (socket) => {
 
     })
 })
-io.listen(8080);
+io.listen(8000);
 
 
 //kreni server
