@@ -21,6 +21,32 @@ router.get('/', async (req, res) => {
     } catch (err) {
         console.log(`Error: ${err}`);
     }
+});
+
+router.post("/:id", async (req, res) => {
+    let poraka = req.params.id;
+    
+    if (req.body.promenaPoraka == "seen") {
+        //stavi seen status
+        if (req.body.korisnik) {
+            var porakaZaPromena = await Message.findById(poraka);
+
+            console.log(porakaZaPromena);
+            if (porakaZaPromena) {
+                let procitanoOd = !!porakaZaPromena.procitanoOd ? porakaZaPromena.procitanoOd : [];
+                procitanoOd.push(req.body.korisnik);
+
+                porakaZaPromena.procitanoOd = procitanoOd;
+
+                await porakaZaPromena.save();
+                res.status(200).json(porakaZaPromena);
+            } else {
+                res.status(400).json({err: "Внесената порака не е пронајдена."});
+            }
+        } else {
+            res.status(400).json({err: "Внесениот корисник не е валиден."});
+        }
+    }
 })
 
 router.post('/', [
@@ -37,7 +63,7 @@ router.post('/', [
             const { sodrzina, isprakjac, grupa } = req.body;
 
             let message = new Message({
-                sodrzina, isprakjac, grupa
+                sodrzina, isprakjac, grupa, procitanoOd: [isprakjac]
             });
 
             await message.save();

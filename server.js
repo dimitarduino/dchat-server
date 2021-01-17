@@ -74,7 +74,6 @@ io.on('connection', (socket) => {
 })
 io.listen(8000);
 
-
 //kreni server
 server.listen(port, () => {
     console.log('Server running on port ' + port);

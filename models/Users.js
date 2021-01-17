@@ -21,6 +21,9 @@ const UserSchema = new mongoose.Schema({
     lozinka: {
         type: String,
         required: true
+    },
+    aktiven: {
+        type: Date
     }
 })
 

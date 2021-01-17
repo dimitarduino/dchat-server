@@ -12,7 +12,8 @@ const MessageSchema = new mongoose.Schema({
     sodrzina: {
         type: String,
         required: true
-    }
+    },
+    procitanoOd: [String]
 }, {
     timestamps: true
 })
