@@ -42,11 +42,7 @@ app.get("/", (req, res) => {
 
 // kreni sockets
 io.on('connection', (socket) => {
-    console.log('nov korisnik');
     socket.on('join', (grupaId, korisnici) => {
-        console.log(`odam na join: ${grupaId}`);
-        console.log(grupaId);
-        console.log('a jas sum: ', korisnici);
         if (Array.isArray(grupaId)) {
             grupaId.push(korisnici);
             socket.join(grupaId);
@@ -58,7 +54,6 @@ io.on('connection', (socket) => {
         }
     })
     socket.on("novaPoraka", (msgContent) => {
-        console.log('nova poraka');
         const { poraka, grupa, isprakjac, korisnici, novaGrupa } = msgContent;
   
         if (novaGrupa) {
@@ -69,7 +64,13 @@ io.on('connection', (socket) => {
             console.log(`New message: ${JSON.stringify(msgContent)}`);
             io.to(grupa).emit('nacrtajPoraka', poraka, grupa, isprakjac);
         }
+    })
 
+    //seen 
+    socket.on("seen", (grupa, korisnik) => {
+        console.log(`procitana posledna poraka vo grupa: ${grupa} od korisnik: ${korisnik}`);
+
+        io.to(grupa).emit("seenPoraka", grupa, korisnik);
     })
 })
 io.listen(8000);
