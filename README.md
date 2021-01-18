@@ -1,11 +1,11 @@
 # Семинарска работа: Веб chat апликација (MERN STACK): Серверски дел
-Клиентскиот дел на апликацијата може да се најди на следниот линк: https://github.com/dimitarduino/dchat-client
+Серверскиот дел на апликацијата може да се најди на следниот линк: https://github.com/dimitarduino/dchat-client
 
 # Хостинг (Серверски дел)
 Покрај начинот за локално стартување на апликацијата, апликацијата е хостирана со автоматски deploy (при commit во master, автоматски се обновува најновата верзија) на линкот: https://dchat-backend.herokuapp.com/
 Исто така хостирана е и на dockerhub: https://hub.docker.com/r/dimitarduino/dchat-server
 
-# Постапки во терминал за старт на клиентскиот дел
+# Постапки во терминал за старт на серверскиот дел
 1. git clone https://github.com/dimitarduino/dchat-server
 2. cd dchat-server
 3. npm install
