@@ -48,6 +48,8 @@ io.on('connection', (socket) => {
             socket.join(grupaId);
             socket.to(grupaId).broadcast.emit('userConnected', korisnici);
         } else {
+            console.log('ne e array');
+            console.log(korisnici);
             let grupi = [grupaId, korisnici];
             socket.join(grupi);
             socket.to(grupi).broadcast.emit('userConnected', korisnici);

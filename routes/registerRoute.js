@@ -28,8 +28,7 @@ router.get("/:id", async (req, res) => {
 
 
 router.post('/users', async (req, res) => {
-    console.log(req);
-    // try {
+    try {
         if (req.body.users) {
             console.log('ete korisnici');
             let userIds = req.body.users;
@@ -43,9 +42,9 @@ router.post('/users', async (req, res) => {
         } else {
             res.status(400).json({err: "Невалиден корисник"});
         }
-    // } catch (err) {
-    //     console.log(`Error: ${err}`);
-    // }
+    } catch (err) {
+        console.log(`Error: ${err}`);
+    }
 })
 
 router.post('/', [
