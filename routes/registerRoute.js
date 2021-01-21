@@ -14,10 +14,26 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.get('/users', async (req, res) => {
+router.get("/:id", async (req, res) => {
+    console.log('idto');
     try {
-        if (req.query.users) {
-            let userIds = req.query.users;
+        const korisnik = await User.findById(req.params.id);
+        res.json({korisnik});
+    }
+
+    catch (err) {
+        res.status(400).json({err});
+    }
+})
+
+
+router.post('/users', async (req, res) => {
+    console.log(req);
+    // try {
+        if (req.body.users) {
+            console.log('ete korisnici');
+            let userIds = req.body.users;
+            console.log(userIds);
             userIds = userIds.split(",");
             console.log(userIds);
             const users = await User.find({
@@ -27,9 +43,9 @@ router.get('/users', async (req, res) => {
         } else {
             res.status(400).json({err: "Невалиден корисник"});
         }
-    } catch (err) {
-        console.log(`Error: ${err}`);
-    }
+    // } catch (err) {
+    //     console.log(`Error: ${err}`);
+    // }
 })
 
 router.post('/', [

@@ -54,10 +54,12 @@ io.on('connection', (socket) => {
         }
     })
     socket.on("novaPoraka", (msgContent) => {
-        const { poraka, grupa, isprakjac, korisnici, novaGrupa } = msgContent;
+        const { poraka, grupa, isprakjac, korisniciPoraka, novaGrupa } = msgContent;
+
+        console.log(msgContent);
   
         if (novaGrupa) {
-            korisnici.forEach(korisnik => {
+            korisniciPoraka.forEach(korisnik => {
                 io.to(korisnik).emit('nacrtajPoraka', poraka, grupa, isprakjac);
             })
         } else {
