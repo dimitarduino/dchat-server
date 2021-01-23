@@ -30,11 +30,8 @@ router.get("/:id", async (req, res) => {
 router.post('/users', async (req, res) => {
     try {
         if (req.body.users) {
-            console.log('ete korisnici');
             let userIds = req.body.users;
-            console.log(userIds);
             userIds = userIds.split(",");
-            console.log(userIds);
             const users = await User.find({
                 _id: {$in: userIds}
             });

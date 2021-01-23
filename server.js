@@ -43,13 +43,19 @@ app.get("/", (req, res) => {
 // kreni sockets
 io.on('connection', (socket) => {
     socket.on('join', (grupaId, korisnici) => {
+        console.log("ova e grupaID:");
+        console.log(grupaId);
+        console.log("\n \n");
+
+        console.log("ova e korisnici:");
+        console.log(korisnici);
+        console.log("\n \n");
+
         if (Array.isArray(grupaId)) {
             grupaId.push(korisnici);
             socket.join(grupaId);
             socket.to(grupaId).broadcast.emit('userConnected', korisnici);
         } else {
-            console.log('ne e array');
-            console.log(korisnici);
             let grupi = [grupaId, korisnici];
             socket.join(grupi);
             socket.to(grupi).broadcast.emit('userConnected', korisnici);
@@ -57,23 +63,18 @@ io.on('connection', (socket) => {
     })
     socket.on("novaPoraka", (msgContent) => {
         const { poraka, grupa, isprakjac, korisniciPoraka, novaGrupa } = msgContent;
-
-        console.log(msgContent);
   
-        if (novaGrupa) {
+        if (novaGrupa) {    
             korisniciPoraka.forEach(korisnik => {
                 io.to(korisnik).emit('nacrtajPoraka', poraka, grupa, isprakjac);
             })
         } else {
-            console.log(`New message: ${JSON.stringify(msgContent)}`);
             io.to(grupa).emit('nacrtajPoraka', poraka, grupa, isprakjac);
         }
     })
 
     //seen 
     socket.on("seen", (grupa, korisnik) => {
-        console.log(`procitana posledna poraka vo grupa: ${grupa} od korisnik: ${korisnik}`);
-
         io.to(grupa).emit("seenPoraka", grupa, korisnik);
     })
 })

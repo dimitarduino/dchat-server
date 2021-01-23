@@ -31,7 +31,6 @@ router.post("/:id", async (req, res) => {
         if (req.body.korisnik) {
             var porakaZaPromena = await Message.findById(poraka);
 
-            console.log(porakaZaPromena);
             if (porakaZaPromena) {
                 let procitanoOd = !!porakaZaPromena.procitanoOd ? porakaZaPromena.procitanoOd : [];
                 procitanoOd.push(req.body.korisnik);
