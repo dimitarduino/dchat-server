@@ -24,27 +24,31 @@ router.get('/', async (req, res) => {
 });
 
 router.post("/:id", async (req, res) => {
-    let poraka = req.params.id;
+    try {
+        let poraka = req.params.id;
+        
+        if (req.body.promenaPoraka == "seen") {
+            //stavi seen status
+            if (req.body.korisnik) {
+                var porakaZaPromena = await Message.findById(poraka);
     
-    if (req.body.promenaPoraka == "seen") {
-        //stavi seen status
-        if (req.body.korisnik) {
-            var porakaZaPromena = await Message.findById(poraka);
-
-            if (porakaZaPromena) {
-                let procitanoOd = !!porakaZaPromena.procitanoOd ? porakaZaPromena.procitanoOd : [];
-                procitanoOd.push(req.body.korisnik);
-
-                porakaZaPromena.procitanoOd = procitanoOd;
-
-                await porakaZaPromena.save();
-                res.status(200).json(porakaZaPromena);
+                if (porakaZaPromena) {
+                    let procitanoOd = !!porakaZaPromena.procitanoOd ? porakaZaPromena.procitanoOd : [];
+                    procitanoOd.push(req.body.korisnik);
+    
+                    porakaZaPromena.procitanoOd = procitanoOd;
+    
+                    await porakaZaPromena.save();
+                    res.status(200).json(porakaZaPromena);
+                } else {
+                    res.status(400).json({err: "Внесената порака не е пронајдена."});
+                }
             } else {
-                res.status(400).json({err: "Внесената порака не е пронајдена."});
+                res.status(400).json({err: "Внесениот корисник не е валиден."});
             }
-        } else {
-            res.status(400).json({err: "Внесениот корисник не е валиден."});
         }
+    } catch (err) {
+        res.status(400).json({err});
     }
 })
 
