@@ -63,6 +63,12 @@ io.on('connection', (socket) => {
     })
     socket.on("novaPoraka", (msgContent) => {
         const { poraka, grupa, isprakjac, korisniciPoraka, novaGrupa } = msgContent;
+
+        console.log('nova poraka');
+        console.log(korisniciPoraka);
+        console.log(grupa);
+        console.log(novaGrupa);
+        console.log('nova poraka');
   
         if (novaGrupa) {    
             korisniciPoraka.forEach(korisnik => {
@@ -76,6 +82,18 @@ io.on('connection', (socket) => {
     //seen 
     socket.on("seen", (grupa, korisnik) => {
         io.to(grupa).emit("seenPoraka", grupa, korisnik);
+    })
+
+    socket.on("izbrisanKorisnik", (korisnik, grupa) => {
+        console.log('stigna izbrisanKorisnik');
+        io.to(korisnik).emit("izbrisanKorisnikServer", grupa);
+    })
+
+    socket.on('izbrisanKorisnikClient', (grupa) => {
+        console.log('stigna izbrisanKorisnikClient');
+        console.log(socket);
+        console.log(grupa);
+        socket.leave(grupa);
     })
 })
 io.listen(8000);
