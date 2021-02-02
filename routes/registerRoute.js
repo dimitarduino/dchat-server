@@ -37,7 +37,10 @@ router.post('/users', async (req, res) => {
             });
             res.json({users});
         } else {
-            res.status(400).json({err: "Невалиден корисник"});
+            const users = await User.find();
+
+            res.json({users});
+            // res.status(400).json({err: "Невалиден корисник"});
         }
     } catch (err) {
         console.log(`Error: ${err}`);

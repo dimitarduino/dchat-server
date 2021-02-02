@@ -23,10 +23,7 @@ router.get("/", auth, async (req, res) => {
 router.post("/:id", async (req, res) => {
     const userId = req.params.id;
     var { oldPassword, newPassword, confirmPassword } = req.body;
-    
-    console.log(oldPassword);
-    console.log(newPassword);
-    console.log(confirmPassword);
+
 
     if (oldPassword && newPassword && confirmPassword) {
         const user = await User.findById(userId);

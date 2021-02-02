@@ -59,11 +59,11 @@ io.on('connection', (socket) => {
         const { poraka, grupa, isprakjac, korisniciPoraka, novaGrupa } = msgContent;
 
         console.log(msgContent);
-  
         if (novaGrupa) {
-            korisniciPoraka.forEach(korisnik => {
-                io.to(korisnik).emit('nacrtajPoraka', poraka, grupa, isprakjac);
-            })
+        korisniciPoraka.forEach(korisnik => {
+            io.to(korisnik).emit('nacrtajPoraka', poraka, grupa, isprakjac);
+        })
+  
         } else {
             console.log(`New message: ${JSON.stringify(msgContent)}`);
             io.to(grupa).emit('nacrtajPoraka', poraka, grupa, isprakjac);
@@ -75,6 +75,14 @@ io.on('connection', (socket) => {
         console.log(`procitana posledna poraka vo grupa: ${grupa} od korisnik: ${korisnik}`);
 
         io.to(grupa).emit("seenPoraka", grupa, korisnik);
+    })
+
+    socket.on("izbrisanKorisnik", (korisnik, grupa) => {
+        io.to(korisnik).emit("izbrisanKorisnikServer", (grupa));
+    })
+
+    socket.on("izbrisanKorisnikClient", (grupa) => {
+        socket.leave(grupa);
     })
 })
 io.listen(8000);
